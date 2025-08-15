@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحللة الطالبة - مكتبة التحليلات المرضية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+        
+        :root {
+            --primary-color: #2a5bd7;
+            --secondary-color: #4a89dc;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --bg-gradient: linear-gradient(135deg, #2a5bd7 0%, #4a89dc 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            background-image: url('https://www.transparenttextures.com/patterns/medical-cross.png');
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 15px 35px rgba(42, 91, 215, 0.25);
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/medical-symbol.png');
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        .title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            background: linear-gradient(to right, #fff, #e6f7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .bio {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 1.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .materials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .material-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.5s ease;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .material-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--bg-gradient);
+        }
+        
+        .material-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(42, 91, 215, 0.2);
+        }
+        
+        .material-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(42, 91, 215, 0.25);
+        }
+        
+        .material-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .material-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .material-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(42, 91, 215, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .material-card.active .material-icon {
+            transform: rotate(180deg);
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .lectures-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: #f8f9fa;
+        }
+        
+        .material-card.active .lectures-container {
+            max-height: 1000px;
+        }
+        
+        .lectures-list {
+            list-style: none;
+            padding: 0 25px 25px;
+        }
+        
+        .lecture-item {
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .lecture-link {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: block;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .lecture-link:hover {
+            background: #f0f7ff;
+            border-left: 4px solid var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .lecture-link::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .lecture-link:hover::before {
+            opacity: 1;
+            left: 10px;
+        }
+        
+        .lecture-link::after {
+            content: "↓";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .lecture-link:hover::after {
+            left: 10px;
+            color: var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 70px;
+            padding: 30px;
+            background: var(--dark-color);
+            color: white;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--bg-gradient);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes titleGlow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+        
+        /* Delay animations for each material card */
+        .material-card:nth-child(1) { animation-delay: 0.1s; }
+        .material-card:nth-child(2) { animation-delay: 0.2s; }
+        .material-card:nth-child(3) { animation-delay: 0.3s; }
+        .material-card:nth-child(4) { animation-delay: 0.4s; }
+        .material-card:nth-child(5) { animation-delay: 0.5s; }
+        .material-card:nth-child(6) { animation-delay: 0.6s; }
+        .material-card:nth-child(7) { animation-delay: 0.7s; }
+        .material-card:nth-child(8) { animation-delay: 0.8s; }
+        .material-card:nth-child(9) { animation-delay: 0.9s; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .materials-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="title">المحللة الطالبة</h1>
+            <h2 class="subtitle">مكتبة التحليلات المرضية - كلية أوروك</h2>
+            <div class="bio">
+                <p>مرحباً بكم في مكتبة المحللة الطالبة، المصدر الشامل لمحاضرات التحليلات المرضية. أنا محمد حاكم، طالب في المرحلة الثانية بكلية أوروك، وأقدم لكم هذه المكتبة المتخصصة التي تحتوي على أحدث المحاضرات العلمية في مجال التحليلات المرضية. المكتبة تشمل مواد مثل الكيمياء السريرية، البكتريا، الطفيليات وغيرها من التخصصات الدقيقة، مع تركيز خاص على الجانب العملي والتطبيقي في المختبرات الطبية.</p>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 40px; color: var(--primary-color); position: relative; display: inline-block; left: 50%; transform: translateX(-50%);">
+            المواد الدراسية
+            <span style="position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background: var(--bg-gradient); border-radius: 3px;"></span>
+        </h2>
+        
+        <div class="materials-container">
+            <!-- الكيمياء السريرية -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الكيمياء السريرية</h3>
+                    <div class="material-icon">1</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الكيمياء السريرية</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_2.pdf" class="lecture-link">المحاضرة 2: تحاليل وظائف الكبد</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_3.pdf" class="lecture-link">المحاضرة 3: تحاليل وظائف الكلى</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_4.pdf" class="lecture-link">المحاضرة 4: تحاليل الدهون</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_5.pdf" class="lecture-link">المحاضرة 5: تحاليل السكري</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_6.pdf" class="lecture-link">المحاضرة 6: تحاليل الإنزيمات</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_7.pdf" class="lecture-link">المحاضرة 7: تحاليل الهرمونات</a></li>
+                        <li class="lecture-item"><a href="lectures/clinical_chemistry_8.pdf" class="lecture-link">المحاضرة 8: ضبط الجودة</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- البكتريا -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">البكتريا</h3>
+                    <div class="material-icon">2</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/bacteriology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم البكتريا</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_2.pdf" class="lecture-link">المحاضرة 2: البكتريا موجبة الجرام</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_3.pdf" class="lecture-link">المحاضرة 3: البكتريا سالبة الجرام</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_4.pdf" class="lecture-link">المحاضرة 4: طرق التشخيص البكتيري</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_5.pdf" class="lecture-link">المحاضرة 5: المضادات الحيوية</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_6.pdf" class="lecture-link">المحاضرة 6: البكتريا اللاهوائية</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_7.pdf" class="lecture-link">المحاضرة 7: مقاومة المضادات</a></li>
+                        <li class="lecture-item"><a href="lectures/bacteriology_8.pdf" class="lecture-link">المحاضرة 8: تقنيات الزرع</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الطفيليات -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الطفيليات</h3>
+                    <div class="material-icon">3</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/parasitology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم الطفيليات</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_2.pdf" class="lecture-link">المحاضرة 2: الطفيليات المعوية</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_3.pdf" class="lecture-link">المحاضرة 3: طفيليات الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_4.pdf" class="lecture-link">المحاضرة 4: التشخيص المجهري</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_5.pdf" class="lecture-link">المحاضرة 5: دورة حياة الطفيليات</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_6.pdf" class="lecture-link">المحاضرة 6: الطفيليات الجلدية</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_7.pdf" class="lecture-link">المحاضرة 7: الأدوية المضادة</a></li>
+                        <li class="lecture-item"><a href="lectures/parasitology_8.pdf" class="lecture-link">المحاضرة 8: طرق العدوى</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- المناعة -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">المناعة</h3>
+                    <div class="material-icon">4</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/immunology_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الجهاز المناعي</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_2.pdf" class="lecture-link">المحاضرة 2: المناعة الخلطية</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_3.pdf" class="lecture-link">المحاضرة 3: المناعة الخلوية</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_4.pdf" class="lecture-link">المحاضرة 4: تفاعلات الحساسية</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_5.pdf" class="lecture-link">المحاضرة 5: اختبارات المناعة</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_6.pdf" class="lecture-link">المحاضرة 6: الأجسام المضادة</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_7.pdf" class="lecture-link">المحاضرة 7: أمراض المناعة</a></li>
+                        <li class="lecture-item"><a href="lectures/immunology_8.pdf" class="lecture-link">المحاضرة 8: التطعيمات</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- التمريض -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">التمريض</h3>
+                    <div class="material-icon">5</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/nursing_1.pdf" class="lecture-link">المحاضرة 1: أساسيات التمريض</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_2.pdf" class="lecture-link">المحاضرة 2: العناية بالمريض</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_3.pdf" class="lecture-link">المحاضرة 3: تقنيات الحقن</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_4.pdf" class="lecture-link">المحاضرة 4: الإسعافات الأولية</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_5.pdf" class="lecture-link">المحاضرة 5: التعقيم والتطهير</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_6.pdf" class="lecture-link">المحاضرة 6: رعاية الجروح</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_7.pdf" class="lecture-link">المحاضرة 7: تقنيات القسطرة</a></li>
+                        <li class="lecture-item"><a href="lectures/nursing_8.pdf" class="lecture-link">المحاضرة 8: الرعاية المركزة</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الفيزياء -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الفيزياء</h3>
+                    <div class="material-icon">6</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/physics_1.pdf" class="lecture-link">المحاضرة 1: فيزياء الأشعة</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_2.pdf" class="lecture-link">المحاضرة 2: أساسيات الضوء</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_3.pdf" class="lecture-link">المحاضرة 3: تطبيقات الكهرباء</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_4.pdf" class="lecture-link">المحاضرة 4: فيزياء الأجهزة</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_5.pdf" class="lecture-link">المحاضرة 5: القياسات الفيزيائية</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_6.pdf" class="lecture-link">المحاضرة 6: الموجات فوق الصوتية</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_7.pdf" class="lecture-link">المحاضرة 7: الإشعاعات الطبية</a></li>
+                        <li class="lecture-item"><a href="lectures/physics_8.pdf" class="lecture-link">المحاضرة 8: السلامة الفيزيائية</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الدم -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الدم</h3>
+                    <div class="material-icon">7</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/hematology_1.pdf" class="lecture-link">المحاضرة 1: مكونات الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_2.pdf" class="lecture-link">المحاضرة 2: فصائل الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_3.pdf" class="lecture-link">المحاضرة 3: أمراض الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_4.pdf" class="lecture-link">المحاضرة 4: تخثر الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_5.pdf" class="lecture-link">المحاضرة 5: فحوصات الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_6.pdf" class="lecture-link">المحاضرة 6: نقل الدم</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_7.pdf" class="lecture-link">المحاضرة 7: أمراض النخاع</a></li>
+                        <li class="lecture-item"><a href="lectures/hematology_8.pdf" class="lecture-link">المحاضرة 8: الأورام الدموية</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الأجهزة الطبية -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الأجهزة الطبية</h3>
+                    <div class="material-icon">8</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/medical_devices_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الأجهزة</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_2.pdf" class="lecture-link">المحاضرة 2: أجهزة التحاليل</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_3.pdf" class="lecture-link">المحاضرة 3: صيانة الأجهزة</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_4.pdf" class="lecture-link">المحاضرة 4: معايرة الأجهزة</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_5.pdf" class="lecture-link">المحاضرة 5: أجهزة الطوارئ</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_6.pdf" class="lecture-link">المحاضرة 6: أجهزة العناية</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة</a></li>
+                        <li class="lecture-item"><a href="lectures/medical_devices_8.pdf" class="lecture-link">المحاضرة 8: السلامة الطبية</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الفسلجة -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الفسلجة</h3>
+                    <div class="material-icon">9</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/physiology_1.pdf" class="lecture-link">المحاضرة 1: فسلجة الجهاز الهضمي</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_2.pdf" class="lecture-link">المحاضرة 2: فسلجة الجهاز التنفسي</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_3.pdf" class="lecture-link">المحاضرة 3: فسلجة القلب</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_4.pdf" class="lecture-link">المحاضرة 4: فسلجة الكلى</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_5.pdf" class="lecture-link">المحاضرة 5: فسلجة الغدد الصماء</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_6.pdf" class="lecture-link">المحاضرة 6: الجهاز العصبي</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_7.pdf" class="lecture-link">المحاضرة 7: التوازن الداخلي</a></li>
+                        <li class="lecture-item"><a href="lectures/physiology_8.pdf" class="lecture-link">المحاضرة 8: التكامل الوظيفي</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- الوراثة -->
+            <div class="material-card" onclick="toggleLectures(this)">
+                <div class="material-header">
+                    <h3 class="material-title">الوراثة</h3>
+                    <div class="material-icon">10</div>
+                </div>
+                <div class="lectures-container">
+                    <ul class="lectures-list">
+                        <li class="lecture-item"><a href="lectures/genetics_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الوراثة</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_2.pdf" class="lecture-link">المحاضرة 2: الوراثة الجزيئية</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_3.pdf" class="lecture-link">المحاضرة 3: الأمراض الوراثية</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_4.pdf" class="lecture-link">المحاضرة 4: الفحوصات الجينية</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_5.pdf" class="lecture-link">المحاضرة 5: تطبيقات الهندسة</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_6.pdf" class="lecture-link">المحاضرة 6: الوراثة الخلوية</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة</a></li>
+                        <li class="lecture-item"><a href="lectures/genetics_8.pdf" class="lecture-link">المحاضرة 8: العلاج الجيني</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>جميع الحقوق محفوظة &copy; 2023 - المحللة الطالبة - محمد حاكم - كلية أوروك - المرحلة الثانية</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleLectures(card) {
+            // Close all other open cards first
+            document.querySelectorAll('.material-card.active').forEach(activeCard => {
+                if (activeCard !== card) {
+                    activeCard.classList.remove('active');
+                }
+            });
+            
+            // Toggle the clicked card
+            card.classList.toggle('active');
+        }
+        
+        // Close cards when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.material-card')) {
+                document.querySelectorAll('.material-card.active').forEach(card => {
+                    card.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
