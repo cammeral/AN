@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المحللة الطبّية - مكتبة التحليلات المرضية المتخصصة</title>
+    <title>إيلاف قاسم - مكتبة التحليلات المرضية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
@@ -37,6 +37,108 @@
                 radial-gradient(circle at 20% 30%, rgba(0, 119, 182, 0.08) 0%, transparent 20%),
                 radial-gradient(circle at 80% 70%, rgba(233, 196, 106, 0.08) 0%, transparent 20%);
             background-attachment: fixed;
+        }
+        
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--bg-gradient);
+        }
+        
+        .login-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .login-form input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 91, 170, 0.2);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 91, 170, 0.2);
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .main-content {
+            display: none;
         }
         
         .container {
@@ -598,268 +700,329 @@
             .lab-element {
                 display: none;
             }
+            
+            .login-container {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+            
+            .login-title {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-container">
+            <h2 class="login-title">تسجيل الدخول</h2>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم:</label>
+                    <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور:</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                </div>
+                <button type="submit" class="login-btn">دخول</button>
+                <div class="error-message" id="errorMessage">اسم المستخدم أو كلمة المرور غير صحيحة</div>
+            </form>
+        </div>
+    </div>
+
     <!-- Lab Decorations -->
     <i class="fas fa-microscope lab-element microscope"></i>
     <i class="fas fa-flask lab-element flask"></i>
     <i class="fas fa-dna lab-element dna"></i>
     
-    <header>
+    <!-- Main Content (Hidden by default) -->
+    <div class="main-content" id="mainContent">
+        <header>
+            <div class="container">
+                <div class="title-container">
+                    <h1 class="title">إيلاف قاسم محمد</h1>
+                    <span class="title-badge">جامعة الكوت</span>
+                </div>
+                <h2 class="subtitle">مكتبة التحليلات المرضية المتخصصة</h2>
+                <div class="bio">
+                    <p>مرحباً بكم في مكتبة التحليلات المرضية، المنصة العلمية الشاملة لمحاضرات قسم التحليلات المرضية. أنا إيلاف قاسم محمد، طالبة في المرحلة الثالثة بقسم التحليلات المرضية بجامعة الكوت، وأقدم لكم هذه المكتبة المتخصصة التي تجمع أحدث المحاضرات العلمية في مجال التحليلات المرضية والمختبرات الطبية. المكتبة تشمل مواد مثل الكيمياء السريرية، علم البكتريا، الطفيليات، المناعة وغيرها من التخصصات الدقيقة، مع تركيز خاص على الجوانب العملية والتطبيقية في المختبرات الطبية الحديثة.</p>
+                </div>
+            </div>
+        </header>
+        
         <div class="container">
-            <div class="title-container">
-                <h1 class="title">المحللة الطبّية</h1>
-                <span class="title-badge">كلية أوروك</span>
-            </div>
-            <h2 class="subtitle">مكتبة التحليلات المرضية المتخصصة</h2>
-            <div class="bio">
-                <p>مرحباً بكم في مكتبة المحللة الطبّية، المنصة العلمية الشاملة لمحاضرات التحليلات المرضية. أنا محمد حاكم، طالب في المرحلة الثانية بكلية أوروك، وأقدم لكم هذه المكتبة المتخصصة التي تجمع أحدث المحاضرات العلمية في مجال التحليلات المرضية والمختبرات الطبية. المكتبة تشمل مواد مثل الكيمياء السريرية، علم البكتريا، الطفيليات، المناعة وغيرها من التخصصات الدقيقة، مع تركيز خاص على الجوانب العملية والتطبيقية في المختبرات الطبية الحديثة.</p>
-            </div>
-        </div>
-    </header>
-    
-    <div class="container">
-        <div class="materials-section">
-            <h2 class="section-title">
-                <i class="fas fa-book-medical"></i>المواد الدراسية
-            </h2>
-            
-            <div class="materials-container">
-                <!-- الكيمياء السريرية -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">الكيمياء السريرية</h3>
-                        <div class="material-icon"><i class="fas fa-vial"></i></div>
-                    </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الكيمياء السريرية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_2.pdf" class="lecture-link">المحاضرة 2: تحاليل وظائف الكبد <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_3.pdf" class="lecture-link">المحاضرة 3: تحاليل وظائف الكلى <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_4.pdf" class="lecture-link">المحاضرة 4: تحاليل الدهون <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_5.pdf" class="lecture-link">المحاضرة 5: تحاليل السكري <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_6.pdf" class="lecture-link">المحاضرة 6: تحاليل الإنزيمات <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_7.pdf" class="lecture-link">المحاضرة 7: تحاليل الهرمونات <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/clinical_chemistry_8.pdf" class="lecture-link">المحاضرة 8: ضبط الجودة <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="materials-section">
+                <h2 class="section-title">
+                    <i class="fas fa-book-medical"></i>المواد الدراسية
+                </h2>
                 
-                <!-- البكتريا -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم البكتريا</h3>
-                        <div class="material-icon"><i class="fas fa-bacteria"></i></div>
+                <div class="materials-container">
+                    <!-- الكيمياء السريرية -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">الكيمياء السريرية</h3>
+                            <div class="material-icon"><i class="fas fa-vial"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الكيمياء السريرية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_2.pdf" class="lecture-link">المحاضرة 2: تحاليل وظائف الكبد <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_3.pdf" class="lecture-link">المحاضرة 3: تحاليل وظائف الكلى <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_4.pdf" class="lecture-link">المحاضرة 4: تحاليل الدهون <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_5.pdf" class="lecture-link">المحاضرة 5: تحاليل السكري <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_6.pdf" class="lecture-link">المحاضرة 6: تحاليل الإنزيمات <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_7.pdf" class="lecture-link">المحاضرة 7: تحاليل الهرمونات <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/clinical_chemistry_8.pdf" class="lecture-link">المحاضرة 8: ضبط الجودة <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/bacteriology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم البكتريا <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_2.pdf" class="lecture-link">المحاضرة 2: البكتريا موجبة الجرام <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_3.pdf" class="lecture-link">المحاضرة 3: البكتريا سالبة الجرام <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_4.pdf" class="lecture-link">المحاضرة 4: طرق التشخيص البكتيري <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_5.pdf" class="lecture-link">المحاضرة 5: المضادات الحيوية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_6.pdf" class="lecture-link">المحاضرة 6: البكتريا اللاهوائية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_7.pdf" class="lecture-link">المحاضرة 7: مقاومة المضادات <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/bacteriology_8.pdf" class="lecture-link">المحاضرة 8: تقنيات الزرع <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
+                    
+                    <!-- البكتريا -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم البكتريا</h3>
+                            <div class="material-icon"><i class="fas fa-bacteria"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/bacteriology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم البكتريا <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_2.pdf" class="lecture-link">المحاضرة 2: البكتريا موجبة الجرام <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_3.pdf" class="lecture-link">المحاضرة 3: البكتريا سالبة الجرام <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_4.pdf" class="lecture-link">المحاضرة 4: طرق التشخيص البكتيري <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_5.pdf" class="lecture-link">المحاضرة 5: المضادات الحيوية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_6.pdf" class="lecture-link">المحاضرة 6: البكتريا اللاهوائية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_7.pdf" class="lecture-link">المحاضرة 7: مقاومة المضادات <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/bacteriology_8.pdf" class="lecture-link">المحاضرة 8: تقنيات الزرع <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- الطفيليات -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم الطفيليات</h3>
-                        <div class="material-icon"><i class="fas fa-bug"></i></div>
+                    
+                    <!-- الطفيليات -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم الطفيليات</h3>
+                            <div class="material-icon"><i class="fas fa-bug"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/parasitology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم الطفيليات <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_2.pdf" class="lecture-link">المحاضرة 2: الطفيليات المعوية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_3.pdf" class="lecture-link">المحاضرة 3: طفيليات الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_4.pdf" class="lecture-link">المحاضرة 4: التشخيص المجهري <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_5.pdf" class="lecture-link">المحاضرة 5: دورة حياة الطفيليات <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_6.pdf" class="lecture-link">المحاضرة 6: الطفيليات الجلدية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_7.pdf" class="lecture-link">المحاضرة 7: الأدوية المضادة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/parasitology_8.pdf" class="lecture-link">المحاضرة 8: طرق العدوى <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/parasitology_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في علم الطفيليات <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_2.pdf" class="lecture-link">المحاضرة 2: الطفيليات المعوية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_3.pdf" class="lecture-link">المحاضرة 3: طفيليات الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_4.pdf" class="lecture-link">المحاضرة 4: التشخيص المجهري <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_5.pdf" class="lecture-link">المحاضرة 5: دورة حياة الطفيليات <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_6.pdf" class="lecture-link">المحاضرة 6: الطفيليات الجلدية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_7.pdf" class="lecture-link">المحاضرة 7: الأدوية المضادة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/parasitology_8.pdf" class="lecture-link">المحاضرة 8: طرق العدوى <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
+                    
+                    <!-- المناعة -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم المناعة</h3>
+                            <div class="material-icon"><i class="fas fa-shield-virus"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/immunology_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الجهاز المناعي <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_2.pdf" class="lecture-link">المحاضرة 2: المناعة الخلطية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_3.pdf" class="lecture-link">المحاضرة 3: المناعة الخلوية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_4.pdf" class="lecture-link">المحاضرة 4: تفاعلات الحساسية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_5.pdf" class="lecture-link">المحاضرة 5: اختبارات المناعة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_6.pdf" class="lecture-link">المحاضرة 6: الأجسام المضادة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_7.pdf" class="lecture-link">المحاضرة 7: أمراض المناعة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/immunology_8.pdf" class="lecture-link">المحاضرة 8: التطعيمات <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- المناعة -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم المناعة</h3>
-                        <div class="material-icon"><i class="fas fa-shield-virus"></i></div>
+                    
+                    <!-- التمريض -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">أساسيات التمريض</h3>
+                            <div class="material-icon"><i class="fas fa-user-nurse"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/nursing_1.pdf" class="lecture-link">المحاضرة 1: أساسيات التمريض <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_2.pdf" class="lecture-link">المحاضرة 2: العناية بالمريض <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_3.pdf" class="lecture-link">المحاضرة 3: تقنيات الحقن <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_4.pdf" class="lecture-link">المحاضرة 4: الإسعافات الأولية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_5.pdf" class="lecture-link">المحاضرة 5: التعقيم والتطهير <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_6.pdf" class="lecture-link">المحاضرة 6: رعاية الجروح <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_7.pdf" class="lecture-link">المحاضرة 7: تقنيات القسطرة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/nursing_8.pdf" class="lecture-link">المحاضرة 8: الرعاية المركزة <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/immunology_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الجهاز المناعي <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_2.pdf" class="lecture-link">المحاضرة 2: المناعة الخلطية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_3.pdf" class="lecture-link">المحاضرة 3: المناعة الخلوية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_4.pdf" class="lecture-link">المحاضرة 4: تفاعلات الحساسية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_5.pdf" class="lecture-link">المحاضرة 5: اختبارات المناعة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_6.pdf" class="lecture-link">المحاضرة 6: الأجسام المضادة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_7.pdf" class="lecture-link">المحاضرة 7: أمراض المناعة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/immunology_8.pdf" class="lecture-link">المحاضرة 8: التطعيمات <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
+                    
+                    <!-- الفيزياء -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">الفيزياء الطبية</h3>
+                            <div class="material-icon"><i class="fas fa-atom"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/physics_1.pdf" class="lecture-link">المحاضرة 1: فيزياء الأشعة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_2.pdf" class="lecture-link">المحاضرة 2: أساسيات الضوء <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_3.pdf" class="lecture-link">المحاضرة 3: تطبيقات الكهرباء <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_4.pdf" class="lecture-link">المحاضرة 4: فيزياء الأجهزة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_5.pdf" class="lecture-link">المحاضرة 5: القياسات الفيزيائية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_6.pdf" class="lecture-link">المحاضرة 6: الموجات فوق الصوتية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_7.pdf" class="lecture-link">المحاضرة 7: الإشعاعات الطبية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physics_8.pdf" class="lecture-link">المحاضرة 8: السلامة الفيزيائية <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- التمريض -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">أساسيات التمريض</h3>
-                        <div class="material-icon"><i class="fas fa-user-nurse"></i></div>
+                    
+                    <!-- الدم -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم الدم</h3>
+                            <div class="material-icon"><i class="fas fa-tint"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/hematology_1.pdf" class="lecture-link">المحاضرة 1: مكونات الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_2.pdf" class="lecture-link">المحاضرة 2: فصائل الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_3.pdf" class="lecture-link">المحاضرة 3: أمراض الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_4.pdf" class="lecture-link">المحاضرة 4: تخثر الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_5.pdf" class="lecture-link">المحاضرة 5: فحوصات الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_6.pdf" class="lecture-link">المحاضرة 6: نقل الدم <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_7.pdf" class="lecture-link">المحاضرة 7: أمراض النخاع <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/hematology_8.pdf" class="lecture-link">المحاضرة 8: الأورام الدموية <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/nursing_1.pdf" class="lecture-link">المحاضرة 1: أساسيات التمريض <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_2.pdf" class="lecture-link">المحاضرة 2: العناية بالمريض <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_3.pdf" class="lecture-link">المحاضرة 3: تقنيات الحقن <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_4.pdf" class="lecture-link">المحاضرة 4: الإسعافات الأولية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_5.pdf" class="lecture-link">المحاضرة 5: التعقيم والتطهير <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_6.pdf" class="lecture-link">المحاضرة 6: رعاية الجروح <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_7.pdf" class="lecture-link">المحاضرة 7: تقنيات القسطرة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/nursing_8.pdf" class="lecture-link">المحاضرة 8: الرعاية المركزة <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
+                    
+                    <!-- الأجهزة الطبية -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">الأجهزة الطبية</h3>
+                            <div class="material-icon"><i class="fas fa-microchip"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/medical_devices_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الأجهزة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_2.pdf" class="lecture-link">المحاضرة 2: أجهزة التحاليل <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_3.pdf" class="lecture-link">المحاضرة 3: صيانة الأجهزة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_4.pdf" class="lecture-link">المحاضرة 4: معايرة الأجهزة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_5.pdf" class="lecture-link">المحاضرة 5: أجهزة الطوارئ <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_6.pdf" class="lecture-link">المحاضرة 6: أجهزة العناية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/medical_devices_8.pdf" class="lecture-link">المحاضرة 8: السلامة الطبية <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- الفيزياء -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">الفيزياء الطبية</h3>
-                        <div class="material-icon"><i class="fas fa-atom"></i></div>
+                    
+                    <!-- الفسلجة -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم الفسلجة</h3>
+                            <div class="material-icon"><i class="fas fa-heartbeat"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/physiology_1.pdf" class="lecture-link">المحاضرة 1: فسلجة الجهاز الهضمي <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_2.pdf" class="lecture-link">المحاضرة 2: فسلجة الجهاز التنفسي <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_3.pdf" class="lecture-link">المحاضرة 3: فسلجة القلب <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_4.pdf" class="lecture-link">المحاضرة 4: فسلجة الكلى <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_5.pdf" class="lecture-link">المحاضرة 5: فسلجة الغدد الصماء <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_6.pdf" class="lecture-link">المحاضرة 6: الجهاز العصبي <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_7.pdf" class="lecture-link">المحاضرة 7: التوازن الداخلي <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/physiology_8.pdf" class="lecture-link">المحاضرة 8: التكامل الوظيفي <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/physics_1.pdf" class="lecture-link">المحاضرة 1: فيزياء الأشعة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_2.pdf" class="lecture-link">المحاضرة 2: أساسيات الضوء <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_3.pdf" class="lecture-link">المحاضرة 3: تطبيقات الكهرباء <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_4.pdf" class="lecture-link">المحاضرة 4: فيزياء الأجهزة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_5.pdf" class="lecture-link">المحاضرة 5: القياسات الفيزيائية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_6.pdf" class="lecture-link">المحاضرة 6: الموجات فوق الصوتية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_7.pdf" class="lecture-link">المحاضرة 7: الإشعاعات الطبية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physics_8.pdf" class="lecture-link">المحاضرة 8: السلامة الفيزيائية <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- الدم -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم الدم</h3>
-                        <div class="material-icon"><i class="fas fa-tint"></i></div>
-                    </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/hematology_1.pdf" class="lecture-link">المحاضرة 1: مكونات الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_2.pdf" class="lecture-link">المحاضرة 2: فصائل الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_3.pdf" class="lecture-link">المحاضرة 3: أمراض الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_4.pdf" class="lecture-link">المحاضرة 4: تخثر الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_5.pdf" class="lecture-link">المحاضرة 5: فحوصات الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_6.pdf" class="lecture-link">المحاضرة 6: نقل الدم <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_7.pdf" class="lecture-link">المحاضرة 7: أمراض النخاع <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/hematology_8.pdf" class="lecture-link">المحاضرة 8: الأورام الدموية <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- الأجهزة الطبية -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">الأجهزة الطبية</h3>
-                        <div class="material-icon"><i class="fas fa-microchip"></i></div>
-                    </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/medical_devices_1.pdf" class="lecture-link">المحاضرة 1: مقدمة في الأجهزة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_2.pdf" class="lecture-link">المحاضرة 2: أجهزة التحاليل <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_3.pdf" class="lecture-link">المحاضرة 3: صيانة الأجهزة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_4.pdf" class="lecture-link">المحاضرة 4: معايرة الأجهزة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_5.pdf" class="lecture-link">المحاضرة 5: أجهزة الطوارئ <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_6.pdf" class="lecture-link">المحاضرة 6: أجهزة العناية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/medical_devices_8.pdf" class="lecture-link">المحاضرة 8: السلامة الطبية <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- الفسلجة -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم الفسلجة</h3>
-                        <div class="material-icon"><i class="fas fa-heartbeat"></i></div>
-                    </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/physiology_1.pdf" class="lecture-link">المحاضرة 1: فسلجة الجهاز الهضمي <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_2.pdf" class="lecture-link">المحاضرة 2: فسلجة الجهاز التنفسي <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_3.pdf" class="lecture-link">المحاضرة 3: فسلجة القلب <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_4.pdf" class="lecture-link">المحاضرة 4: فسلجة الكلى <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_5.pdf" class="lecture-link">المحاضرة 5: فسلجة الغدد الصماء <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_6.pdf" class="lecture-link">المحاضرة 6: الجهاز العصبي <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_7.pdf" class="lecture-link">المحاضرة 7: التوازن الداخلي <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/physiology_8.pdf" class="lecture-link">المحاضرة 8: التكامل الوظيفي <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- الوراثة -->
-                <div class="material-card" onclick="toggleLectures(this)">
-                    <div class="material-header">
-                        <div class="material-pattern"></div>
-                        <h3 class="material-title">علم الوراثة</h3>
-                        <div class="material-icon"><i class="fas fa-dna"></i></div>
-                    </div>
-                    <div class="lectures-container">
-                        <ul class="lectures-list">
-                            <li class="lecture-item"><a href="lectures/genetics_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الوراثة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_2.pdf" class="lecture-link">المحاضرة 2: الوراثة الجزيئية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_3.pdf" class="lecture-link">المحاضرة 3: الأمراض الوراثية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_4.pdf" class="lecture-link">المحاضرة 4: الفحوصات الجينية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_5.pdf" class="lecture-link">المحاضرة 5: تطبيقات الهندسة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_6.pdf" class="lecture-link">المحاضرة 6: الوراثة الخلوية <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة <i class="fas fa-file-pdf"></i></a></li>
-                            <li class="lecture-item"><a href="lectures/genetics_8.pdf" class="lecture-link">المحاضرة 8: العلاج الجيني <i class="fas fa-file-pdf"></i></a></li>
-                        </ul>
+                    
+                    <!-- الوراثة -->
+                    <div class="material-card" onclick="toggleLectures(this)">
+                        <div class="material-header">
+                            <div class="material-pattern"></div>
+                            <h3 class="material-title">علم الوراثة</h3>
+                            <div class="material-icon"><i class="fas fa-dna"></i></div>
+                        </div>
+                        <div class="lectures-container">
+                            <ul class="lectures-list">
+                                <li class="lecture-item"><a href="lectures/genetics_1.pdf" class="lecture-link">المحاضرة 1: أساسيات الوراثة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_2.pdf" class="lecture-link">المحاضرة 2: الوراثة الجزيئية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_3.pdf" class="lecture-link">المحاضرة 3: الأمراض الوراثية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_4.pdf" class="lecture-link">المحاضرة 4: الفحوصات الجينية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_5.pdf" class="lecture-link">المحاضرة 5: تطبيقات الهندسة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_6.pdf" class="lecture-link">المحاضرة 6: الوراثة الخلوية <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_7.pdf" class="lecture-link">المحاضرة 7: التقنيات الحديثة <i class="fas fa-file-pdf"></i></a></li>
+                                <li class="lecture-item"><a href="lectures/genetics_8.pdf" class="lecture-link">المحاضرة 8: العلاج الجيني <i class="fas fa-file-pdf"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-logo">إيلاف قاسم محمد</div>
+                    <p class="footer-bio">
+                        مكتبة علمية متخصصة في التحليلات المرضية تقدم محاضرات وشروحات لطلبة جامعة الكوت - قسم التحليلات المرضية، 
+                        تحت إشراف الطالبة إيلاف قاسم محمد - المرحلة الثالثة، بهدف تطوير المعرفة العلمية وتسهيل الوصول للمعلومات الدقيقة.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <p class="copyright">جميع الحقوق محفوظة &copy; 2025 - إيلاف قاسم محمد - جامعة الكوت - قسم التحليلات المرضية</p>
+                </div>
+            </div>
+        </footer>
     </div>
-    
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">المحللة الطبّية</div>
-                <p class="footer-bio">
-                    مكتبة علمية متخصصة في التحليلات المرضية تقدم محاضرات وشروحات لطلبة كلية أوروك والكليات الطبية، 
-                    تحت إشراف الطالب محمد حاكم - المرحلة الثانية، بهدف تطوير المعرفة العلمية وتسهيل الوصول للمعلومات الدقيقة.
-                </p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <p class="copyright">جميع الحقوق محفوظة &copy; 2023 - المحللة الطبّية - كلية أوروك</p>
-            </div>
-        </div>
-    </footer>
 
     <script>
+        // Login Credentials
+        const validUsername = "ilaf123";
+        const validPassword = "kut2023";
+        
+        // Login Form Handling
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginModal = document.getElementById('loginModal');
+        const mainContent = document.getElementById('mainContent');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === validUsername && password === validPassword) {
+                // Successful login
+                loginModal.style.display = 'none';
+                mainContent.style.display = 'block';
+            } else {
+                // Failed login
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Material Cards Functionality
         function toggleLectures(card) {
             // Close all other open cards first
             document.querySelectorAll('.material-card.active').forEach(activeCard => {
